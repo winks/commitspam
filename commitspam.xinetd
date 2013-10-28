@@ -9,7 +9,7 @@ service commitspam-stream
         group       = www-data
         wait        = no
         server      = /opt/commitspam/spawn.rb
-        only_from   = 192.30.25.0/22 204.232.175.64/27 88.217.184.122/32 127.0.0.1/32
+        only_from   = 192.30.25.0/22 204.232.175.64/27 127.0.0.1/32
         log_on_success = PID HOST DURATION USERID EXIT
         log_on_failure = HOST USERID ATTEMPT
 }
