@@ -8,7 +8,6 @@ Every few months I need commitspam and have to look it up again how to do it.
 ```
 gem install git-commit-notifier
 ```
-  (you also need json and webrick, but they seem to be in the default distro)
   * checkout this repo, I used `/opt/commitspam` (paths are hardcoded, sorry)
 ```
 cd /opt
