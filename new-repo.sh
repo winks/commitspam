@@ -29,6 +29,6 @@ fi
 CONFIG=${BASEDIR}/config_${REPO}.yml
 
 git clone $URL $REPO
-cp ${BASEDIR}/_config.yml $CONFIG
+cp ${BASEDIR}/config.template.yml $CONFIG
 sed -i "s/XXX_FROM_XXX/${FROM}/" $CONFIG
 sed -i "s/XXX_TO_XXX/${TO}/" $CONFIG

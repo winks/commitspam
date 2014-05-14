@@ -1,0 +1,17 @@
+def allowed_ranges
+  %w{
+127.0.0.1/8
+10.0.0.0/8
+192.30.252.0/22
+}
+end
+
+def notifier
+  "git-commit-notifier"
+end
+
+def pre_exec(payload)
+end
+
+def post_exec(stdout, stderr, status)
+end
