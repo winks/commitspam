@@ -8,7 +8,6 @@ req.parse(STDIN)
 
 allowed = %w{
 127.0.0.1/8
-204.232.175.64/27
 192.30.252.0/22
 }.map { |subnet| IPAddr.new subnet }
 

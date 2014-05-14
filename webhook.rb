@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'ipaddr'
 require 'json'
 require 'sinatra'
 
@@ -14,10 +15,15 @@ class WebHook < Sinatra::Base
       after_id = push['after']
       ref = push['ref']
 
-      if request.ip =~ /192\.30\.252\.\d+/ or request.ip =~ /204\.232\.175\.\d+/
-        system("/opt/commitspam/change-notify.sh #{repo} #{before_id} #{after_id} #{ref}")
-      else
+      allowed = %w{
+      127.0.0.1/8
+      192.30.252.0/22
+      }.map { |subnet| IPAddr.new subnet }
+
+      if not allowed.any? { |block| block.include?(request.ip) }
         puts "IP not allowed #{request.ip}"
+      else
+        system("/opt/commitspam/change-notify.sh #{repo} #{before_id} #{after_id} #{ref}")
       end
     end
   end

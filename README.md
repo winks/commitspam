@@ -5,21 +5,27 @@ Every few months I need commitspam and have to look it up again how to do it.
 ## Instructions for simple and probably more reliable xinetd method
 
 a) Install ruby stuff, use chruby or something:
-
 ```
 gem install git-commit-notifier
 ```
 (you also need json and webrick, but they seem to be in the default distro)
 
-b) checkout stuff, I used `/opt/commitspam` (paths are hardcoded, sorry)
-
+b) checkout this repo, I used `/opt/commitspam` (paths are hardcoded, sorry)
 ```
 cd /opt
 git clone https://github.com/winks/commitspam.git commitspam
 ```
 
+c) copy (and possibly adapt) the config template.
+```
+cp _config.yml.dist _config.yml
+```
+
 c) configure one of your repos
 ```
+#                           repository to clone                     foldername sender address   receiver address
+#                           |                                       |          |                |
+#                           v                                       v          v                v
 /opt/commitspam/new-repo.sh https://github.com/winks/commitspam.git commitspam from@example.org to@example.org
 ```
 
@@ -98,7 +104,9 @@ g) enjoy
 
 ## TODO
 
-  * Github Webhook IPs are hardcoded multiple times. Check them at https://api.github.com/meta
+  * Github Webhook IPs are hardcoded multiple times.
+    * Probably in commitspam.xinetd, spawn.rb and webhook.rb
+    * Check them at https://api.github.com/meta
   * This is still a hack
   * It *seems* to work behind nginx
 
