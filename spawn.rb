@@ -1,7 +1,8 @@
 #!/usr/bin/env ruby
 
-require 'webrick'
+require 'ipaddr'
 require 'json'
+require 'webrick'
 
 req = WEBrick::HTTPRequest.new(WEBrick::Config::HTTP)
 req.parse(STDIN)
