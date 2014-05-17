@@ -8,9 +8,6 @@ set :port, 8060
 set :environment, :production
 set :dump_errors, false
 
-class FooError < Exception
-end
-
 def pre_exec
 end
 def post_exec
@@ -27,7 +24,9 @@ def notifier
   "git-commit-notifier"
 end
 
-require '/opt/commitspam/config.rb' if File.exist? '/opt/commitspam/config.rb'
+folder = File.dirname(__FILE__)
+
+require "#{folder}/config.rb" if File.exist? "#{folder}/config.rb"
 
 allowed_ranges = allowed_ranges().map { |subnet| IPAddr.new subnet }
 
@@ -57,7 +56,7 @@ post '/' do
 
   pre_exec(push)
 
-  cmd  = "/opt/commitspam/change-notify.sh #{repo_name} #{before_id} #{after_id} #{ref} #{notifier()}"
+  cmd  = "#{folder}/change-notify.sh #{repo_name} #{before_id} #{after_id} #{ref} #{notifier()}"
   stdout, stderr, status = Open3.capture3(cmd)
 
   post_exec(stdout, stderr, status)

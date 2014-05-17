@@ -26,9 +26,13 @@ fi
 
 CONFIG=${BASEDIR}/config_${REPO}.yml
 
-# Assume repository exists in directory and user has pull access
-cd ${BASEDIR}/$REPO
-git pull --rebase
-echo $BEFORE $AFTER $REF | $NOTIFIER $CONFIG
+if [ "refs/heads/master" = "$REF" ]; then
+
+       # Assume repository exists in directory and user has pull access
+       cd ${BASEDIR}/$REPO
+       git pull
+       echo $BEFORE $AFTER $REF | $NOTIFIER $CONFIG
+
+fi
 
 exit $?
