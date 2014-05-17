@@ -1,8 +1,11 @@
+#!/usr/bin/env ruby
+
 require 'rubygems'
+require 'sinatra'
+
 require 'ipaddr'
 require 'json'
 require 'open3'
-require 'sinatra'
 
 set :port, 8060
 set :environment, :production
@@ -25,7 +28,6 @@ def notifier
 end
 
 folder = File.dirname(__FILE__)
-
 require "#{folder}/config.rb" if File.exist? "#{folder}/config.rb"
 
 allowed_ranges = allowed_ranges().map { |subnet| IPAddr.new subnet }
@@ -46,15 +48,14 @@ post '/' do
     raise Exception, "Missing payload."
   end
 
-  push = JSON.parse(params[:payload])
-
-  before_id = push['before']
-  after_id = push['after']
-  ref = push['ref']
-  repo = push['repository']
+  payload   = JSON.parse(params[:payload])
+  before_id = payload['before']
+  after_id  = payload['after']
+  ref       = payload['ref']
+  repo      = payload['repository']
   repo_name = repo['name']
 
-  pre_exec(push)
+  pre_exec(payload)
 
   cmd  = "#{folder}/change-notify.sh #{repo_name} #{before_id} #{after_id} #{ref} #{notifier()}"
   stdout, stderr, status = Open3.capture3(cmd)

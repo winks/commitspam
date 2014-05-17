@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 
+require 'webrick'
+
 require 'ipaddr'
 require 'json'
 require 'open3'
-require 'webrick'
 
 def pre_exec
 end
@@ -21,7 +22,8 @@ def notifier
   "git-commit-notifier"
 end
 
-require '/opt/commitspam/config.rb' if File.exist? '/opt/commitspam/config.rb'
+folder = File.dirname(__FILE__)
+require "#{folder}/config.rb" if File.exist? "#{folder}/config.rb"
 
 allowed_ranges = allowed_ranges().map { |subnet| IPAddr.new subnet }
 
@@ -45,21 +47,21 @@ unless req.query.include? 'payload'
   exit 24
 end
 
-json_payload = JSON.parse(req.query['payload'])
-ref          = json_payload['ref']
-before_id    = json_payload['before']
-after_id     = json_payload['after']
-repo         = json_payload['repository']
-repo_name    = repo['name']
+payload   = JSON.parse(req.query['payload'])
+ref       = payload['ref']
+before_id = payload['before']
+after_id  = payload['after']
+repo      = payload['repository']
+repo_name = repo['name']
 
 child_pid = fork do
   STDIN.reopen "/dev/null"
   STDOUT.reopen "/dev/null", "a"
   STDERR.reopen "/dev/null", "a"
 
-  pre_exec(json_payload)
+  pre_exec(payload)
 
-  cmd  = "/opt/commitspam/change-notify.sh #{repo_name} #{before_id} #{after_id} #{ref} #{notifier()}"
+  cmd  = "#{folder}/change-notify.sh #{repo_name} #{before_id} #{after_id} #{ref} #{notifier()}"
   stdout, stderr, status = Open3.capture3(cmd)
 
   post_exec(stdout, stderr, status)
