@@ -52,6 +52,17 @@ ref       = payload['ref']
 before_id = payload['before']
 after_id  = payload['after']
 repo      = payload['repository']
+if repo.nil?
+  if payload['zen'].nil?
+    resp.status = 403
+    puts resp.to_s
+    exit 25
+  else
+    resp.status = 200
+    puts resp.to_s
+    exit 0
+  end
+end
 repo_name = repo['name']
 
 child_pid = fork do
