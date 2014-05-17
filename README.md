@@ -2,7 +2,7 @@
 
 Every few months I need commitspam and have to look it up again how to do it.
 
-## Instructions for simple and probably more reliable xinetd method
+## Instructions for simple xinetd method
 
   * Install ruby stuff, use chruby or something:
 ```
@@ -50,14 +50,17 @@ sudo apt-get install xinetd
 sudo ln -s /opt/commitspam/commitspam.xinetd /etc/xinetd.d/commitspam
 sudo service xinetd restart
 ```
+  * *Warning*: Do not try to log USERID in xinetd, you will probably run into
+    a timeput because Github's servers aren't running identd. This took me a
+    few hours to debug.
 
   * edit your settings at https://github.com/USERNAME/REPONAME/settings/hooks
-and add http://yourhost.example.org:8060
+    and add http://yourhost.example.org:8060
 
   * enjoy
 
 
-## Instructions for less simple and (probably less) reliable daemon method
+## Instructions for less simple daemon method
 
   * Install ruby stuff, use chruby or something:
 ```
@@ -100,6 +103,9 @@ ruby webhook.rb
 and add http://yourhost.example.org:8060
 
   * enjoy
+
+  * bonus: obviously you can but shouldn't run this in tmux/screen, so
+    you can use the included supervisord-commitspam.ini.
 
 ## TODO
 
