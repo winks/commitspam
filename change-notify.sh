@@ -2,7 +2,7 @@
 
 set -e
 
-BASEDIR=/opt/commitspam
+DATADIR=/opt/commitspam/data
 
 EXPECTED_ARGS=5
 E_BADARGS=65
@@ -19,17 +19,17 @@ AFTER=$3
 REF=$4
 NOTIFIER=$5
 
-if [ ! -d "${BASEDIR}/${REPO}" ]; then
-    echo "Not a directory: ${BASEDIR}/${REPO}"
+if [ ! -d "${DATADIR}/${REPO}" ]; then
+    echo "Not a directory: ${DATADIR}/${REPO}"
     exit 1
 fi
 
-CONFIG=${BASEDIR}/config_${REPO}.yml
+CONFIG=${DATADIR}/config_${REPO}.yml
 
 if [ "refs/heads/master" = "$REF" ]; then
 
        # Assume repository exists in directory and user has pull access
-       cd ${BASEDIR}/$REPO
+       cd ${DATADIR}/$REPO
        git pull
        echo $BEFORE $AFTER $REF | $NOTIFIER $CONFIG
 

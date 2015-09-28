@@ -15,7 +15,8 @@ git clone https://github.com/winks/commitspam.git commitspam
 ```
   * copy (and possibly adapt) the config template.
 ```
-cp config.template.yml.dist config.template.yml
+mkdir data
+cp config.template.yml.dist data/config.template.yml
 ```
 
   * optional: copy config.rb and overwrite some values
@@ -37,7 +38,7 @@ total 60K
 -rw-r--r--  1 winks 8.7K Oct  9 19:28 config_commitspam.yml
 -rw-r--r--  1 winks 8.7K Oct  9 19:29 config.template.yml
 -rw-r--r--  1 winks  182 Oct  9 19:29 config.rb
-drwxr-xr-x 11 winks 4.0K Oct  9 19:06 commitspam/
+drwxr-xr-x 11 winks 4.0K Oct  9 19:06 data/ # commitspam/
 -rwxr-xr-x  1 winks  544 Oct 10 00:37 new-repo.sh*
 -rw-r--r--  1 winks  573 Oct 10 00:42 README.md
 -rwxr-xr-x  1 winks  863 Oct 24 09:04 spawn.rb*
@@ -86,7 +87,7 @@ total 60K
 -rw-r--r--  1 winks 8.7K Oct  9 19:28 config_commitspam.yml
 -rw-r--r--  1 winks 8.7K Oct  9 19:29 config.template.yml
 -rw-r--r--  1 winks  182 Oct  9 19:29 config.rb
-drwxr-xr-x 11 winks 4.0K Oct  9 19:06 commitspam/
+drwxr-xr-x 11 winks 4.0K Oct  9 19:06 data/ # commitspam/
 -rwxr-xr-x  1 winks  544 Oct 10 00:37 new-repo.sh*
 -rw-r--r--  1 winks  573 Oct 10 00:42 README.md
 -rw-r--r--  1 winks  565 Oct 10 00:36 webhook.rb

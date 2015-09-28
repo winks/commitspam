@@ -3,6 +3,7 @@
 set -e
 
 BASEDIR=/opt/commitspam
+DATADIR="${BASEDIR}/data"
 
 EXPECTED_ARGS=4
 E_BADARGS=65
@@ -21,14 +22,18 @@ TO=$4
 echo $FROM
 echo $TO
 
-if [ -d "${BASEDIR}/${REPO}" ]; then
-    echo "Directory already exists: ${BASEDIR}/${REPO}"
+if [ ! -d "${DATADIR}" ]; then
+    mkdir -p "${DATADIR}"
+fi
+
+if [ -d "${DATADIR}/${REPO}" ]; then
+    echo "Directory already exists: ${DATADIR}/${REPO}"
     exit 1
 fi
 
-CONFIG=${BASEDIR}/config_${REPO}.yml
+CONFIG=${DATADIR}/config_${REPO}.yml
 
-git clone $URL $REPO
-cp ${BASEDIR}/config.template.yml $CONFIG
+git clone $URL ${DATADIR}/$REPO
+cp ${DATADIR}/config.template.yml $CONFIG
 sed -i "s/XXX_FROM_XXX/${FROM}/" $CONFIG
 sed -i "s/XXX_TO_XXX/${TO}/" $CONFIG
